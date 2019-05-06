@@ -1,0 +1,29 @@
+[a-zA-Z_][\w]* para identificadores
+[\d]+(\.\d+)? para numeros ya sea reales o enteros
+([+-]?[\d]+(\.\d+)?([eE][+-][\d]+)?) para numeros ya sea reales o enteros con o sin signo o con o sin notacion cientifica
+\/\/.* comentario inline
+\/\*(.|\n)*\*\/ comentario en bloque
+\"(([^\"]|\n))*\" strings comilla  doble
+"((\\")|(\n)|[^\"])*" strings comilla  doble con \"
+\'(([^\']|\n))*\' strings comilla simple
+'((\\')|(\n)|[^\'])*' strings comilla simple con \'
+[a-zA-ZñÑ][\wñÑ]* con la Z_ñÑ sin tener solo a _ como id
+(<=|>=|==|<>) operadores de dos caracteres
+(=|\+|\-|\*|\/|%|\^|,|\.|;|:|\[|\]|\{|\}|\(|\)|<|>) operadores de un caracter
+([^\s]) caracteres no permitidos.
+
+
+
+
+
+
+
+
+
+
+
+
+
+(('((\\')|(\n)|[^\'])*')|("((\\")|(\n)|[^\"])*"))
+
+(?=.*('((\\')|(\n)|[^\'])*'))(?=.*("((\\")|(\n)|[^\"])*"))
