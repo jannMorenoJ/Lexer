@@ -2,8 +2,7 @@
 import re
 
 # archivo a utilizar como prueba
-documento = open(
-    "/home/jann/Documents/UN/2019-1/Lenguajes/analizadorLexico/lexer2.0/documento.txt", "r")
+documento = open("/home/jann/Documents/UN/2019-1/Lenguajes/analizadorLexico/lexer2.0/documento.txt", "r")
 
 # lista de todas las lineas que contiene el documento
 lineas = documento.readlines()
@@ -11,6 +10,23 @@ documento.close()
 fila = 0
 indice = 0
 
+#definicion de la clase token
+class Token:
+
+    def __init__(self, fila, columna, tipo, lexema):
+        self.fila = fila
+        self.columna = columna
+        self.tipo =  tipo #Igual a una de las constantes
+        self.lexema = lexema
+
+    #Constantes
+    ID = 1
+    ENTERO = 2
+    REAL = 3
+    STRING = 4
+    BOOLEANO = 5
+    OPERADOR = 6
+    PALABRA_RESERVADA = 7
 
 def siguiente_char():
     '''
@@ -33,6 +49,33 @@ def siguiente_char():
     for i in range(len(lineas)):
         for j in range(len(lineas[i])):
             print(siguiente_char()) """
+def es_aceptado(indice, fila):
+    aux_indice = indice
+    aux_fila = fila
+    auxii=""
+
+    a=""
+    a = lineas[aux_fila][aux_indice]
+    if((aux_indice) == (len(lineas[aux_fila])-1)):
+        aux_fila += 1
+        aux_indice = 0
+        if(es_valido_para(ER_indentificador,a)):
+            aux_indice +=1
+            auxii=auxii+a
+            while(es_valido_para(ER_indentificador,a)):
+                auxii=auxii+a
+                aux_indice +=1
+
+                break
+    else:
+        indice += 1
+    return [auxii, aux_fila, aux_indice]
+
+""" def es_numero(n):
+    if(siguiente_char[0]==ER_Entero):
+        return True
+
+ """
 
 palabras_reservadas = {
     'and': '<and, ',
@@ -105,6 +148,7 @@ palabras_reservadas = {
 # EXPRESIONES REGULARES
 ER_indentificador = r'[\wñÑ]'  # Regex para caracter identificador
 ER_digito = r'\d'  # Regex para digitos
+ER_Entero = r'[-?\d]+'
 
 
 def es_valido_para(ER, caracter):
@@ -133,9 +177,14 @@ for i in range(len(longitudes)):
     longitud += longitudes[i]
 #PRUEBA: print(longitud)
 
-""" PRUEBA:  for i in range(longitud):
-    print(siguiente_char()) """
 
+print(es_aceptado(0,0))
+
+
+def analex():
+    c = siguiente_char()
+    if((c[0] == ' ' or c[0] == '\t' or c[0] == '\n')):
+        return
 
 #---NOTA---: REVISAR PRESENTACIONES DEL PROFESOR, ES LA GUIA PARA ANALISIS
 # LEXICO CARACTER POR CARACTER
