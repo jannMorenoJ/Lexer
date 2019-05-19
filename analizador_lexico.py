@@ -10,16 +10,16 @@ full_path= ['pruebas.txt', 'tu/path/hacia/el/archivo']
 f reads the .txt file with the code
 document stores the whole file as a string
 '''
-f = open(full_path[0], 'r')
+""" f = open(full_path[0], 'r')
 document = f.read()
-f.close()
+f.close() """
 
 #Regular expresions list
 RE_identifier = r'[a-zA-ZñÑ][\wñÑ]*'
 RE_numbers = r'((\+|\-)?\d+(\.\d+)?((e|E)(\+|\-)\d+)?)'
 #RE_multiline_comment = r'\/\*(.|\n)*\*\/'
 #RE_single_line_comment = r'\/\/.*'
-RE_comment= r'((\/\*([^/*]|\n)*\*\/)|(\/\/.*))'
+RE_comment= r'((\/\*(.|\n)*\*\/)|(\/\/.*))'
 #RE_string_single_quote = r"'((\\')|(\n)|[^\'])*'"
 #RE_string_double_quotes = r'"((\\")|(\n)|[^\"])*"'
 RE_string = r"((\'((\\\')|(\n)|[^\'])*\')|(\"((\\\")|(\n)|[^\"])*\"))"
@@ -27,72 +27,114 @@ RE_operators_of_two_chars = r'(<=|>=|==|<>)'
 RE_operators_of_one_char = r'(=|\+|\-|\*|\/|%|\^|,|\.|;|:|\[|\]|\{|\}|\(|\)|<|>)'
 RE_errors = r'([^\s])'
 RE_filas_columnas = r'(\d+), (\d+)'
+RE_tokens =  r'^<.*, (.*,)?(\d+), (\d+)>$'
 
 
 reserved_words = {
-    'and': '<and,',
-    'constantes' : '<constantes,',
-    'hasta' : '<hasta, ',
-    'matriz' : '<matriz, ',
-    'paso' : '<paso, ',
-    'regitro' : '<registro, ',
-    'sino' : '<sino, ',
-    'vector' : '<vector, ',
-    'archivo' : '<archivo, ',
-    'desde' : '<desde, ',
-    'inicio' : '<inicio, ',
-    'mientras' : '<mientras, ',
-    'subrutina' :'<subrutina, ',
-    'repetir' : '<repetir, ',
-    'tipos' : '<tipos, ',
-    'caso' : '<caso, ',
-    'eval' : 'eval, ',
-    'lib' : '<lib, ',
-    'not': '<not, ',
-    'programa' : '<programa, ',
-    'retorna' : '<retorna, ',
-    'var' : '<var, ',
-    'const' : '<const, ',
-    'fin' : '<fin, ',
-    'libext' : '<libext, ',
-    'or' : '<or, ',
-    'ref' : '<ref, ',
-    'si' : '<si, ',
-    'variables' : '<variables, ',
-    'numerico' : '<numerico, ',
-    'imprimir' : '<imprimir, ',
-    'leer': '<leer, '
+  'and': '<and, ',
+  'constantes' : '<constantes,',
+  'hasta' : '<hasta, ',
+  'matriz' : '<matriz, ',
+  'paso' : '<paso, ',
+  'regitro' : '<registro, ',
+  'sino' : '<sino, ',
+  'vector' : '<vector, ',
+  'archivo' : '<archivo, ',
+  'desde' : '<desde, ',
+  'inicio' : '<inicio, ',
+  'mientras' : '<mientras, ',
+  'subrutina' :'<subrutina, ',
+  'repetir' : '<repetir, ',
+  'tipos' : '<tipos, ',
+  'caso' : '<caso, ',
+  'eval' : 'eval, ',
+  'lib' : '<lib, ',
+  'not': '<not, ',
+  'programa' : '<programa, ',
+  'retorna' : '<retorna, ',
+  'var' : '<var, ',
+  'const' : '<const, ',
+  'fin' : '<fin, ',
+  'libext' : '<libext, ',
+  'or' : '<or, ',
+  'ref' : '<ref, ',
+  'si' : '<si, ',
+  'variables' : '<variables, ',
+  'numerico' : '<numerico, ',
+  'imprimir' : '<imprimir, ',
+  'leer': '<leer, ',
+  'dim' : '<dim, ',
+  'cls' : '<cls, ',
+  'set_ifs' : '<set_ifs, ',
+  'abs' : '<abs, ',
+  'arctan' : '<arctan, ',
+  'ascii' : '<ascii, ',
+  'cos' : '<cos, ',
+  'dec' : '<dec, ',
+  'eof' : '<eof, ',
+  'exp' : '<exp, ',
+  'get_ifs' : '<get_ifs, ',
+  'inc' : '<inc, ',
+  'int' : '<int, ',
+  'log' : '<log, ',
+  'lower' : '<lower, ',
+  'mem' : '<mem, ',
+  'ord' : '<ord, ',
+  'paramval' : '<paramval, ',
+  'pcount' : '<pcount, ',
+  'pos' : '<pos, ',
+  'random' : '<random, ',
+  'sec' : '<sec, ',
+  'set_stdin' : '<set_stdin, ',
+  'set_stdout' : '<set_stdout, ',
+  'sin' : '<sin, ',
+  'sqrt' : '<sqrt, ',
+  'srt' : '<srt, ',
+  'strdup' : '<strdup, ',
+  'strlen' : '<strlen, ',
+  'tan' : '<tan, ',
+  'upper' : '<upper, ',
+  'val' : '<val, ',
+  'logico' : '<logico, ',
+  'verdadero' : '<verdadero, '
 }
 
 reserved_operation = {
-    ',' : '<tk_coma, ',
-    ':' : '<tk_dospuntos, ',
-    '(' : '<tk_par_izq, ',
-    ')' : '<tk_par_der, ',
-    ';' : '<tk_punto_y_coma, ',
-    '=' : '<tk_asig, ',
-    '{' : '<tk_llave_izq, ',
-    '}' : '<tk_llave_der, ',
-    '[' : '<tk_corchete_izq, ',
-    ']' : '<tk_corchete_der, ',
-    '<>' : '<tk_distinto, ',
-    '==' : '<tk_igual_que, ',
-    '<' : '<tk_menor_que, ',
-    '>' : '<tk_mayor_que, ',
-    '<=' : '<tk_menor_igual_que, ',
-    '>=' : '<tk_mayor_igual_que, ',
-    '^' : '<tk_potenciacion, ',
-    '%' : '<tk_modulo, ',
-    '/' : '<tk_division, ',
-    '+' : '<tk_suma, ',
-    '-' : '<tk_resta, ',
-    '*' : '<tk_multiplicacion, ',
+  '.' : '<tk_punto, ',
+  ',' : '<tk_coma, ',
+  ':' : '<tk_dospuntos, ',
+  '(' : '<tk_par_izq, ',
+  ')' : '<tk_par_der, ',
+  ';' : '<tk_punto_y_coma, ',
+  '=' : '<tk_asig, ',
+  '{' : '<tk_llave_izq, ',
+  '}' : '<tk_llave_der, ',
+  '[' : '<tk_corchete_izq, ',
+  ']' : '<tk_corchete_der, ',
+  '<>' : '<tk_distinto, ',
+  '==' : '<tk_igual_que, ',
+  '<' : '<tk_menor_que, ',
+  '>' : '<tk_mayor_que, ',
+  '<=' : '<tk_menor_igual_que, ',
+  '>=' : '<tk_mayor_igual_que, ',
+  '^' : '<tk_potenciacion, ',
+  '%' : '<tk_modulo, ',
+  '/' : '<tk_division, ',
+  '+' : '<tk_suma, ',
+  '-' : '<tk_resta, ',
+  '*' : '<tk_multiplicacion, ',
 }
 unknown_words = {
   'cadena': '<tk_cadena, ',
   'id' : '<id, ',
   'numero' : '<tk_num, '
 }
+string = ''
+for i in reserved_operation:
+  string += reserved_operation.get(i)
+
+print(re.findall(r'<\w+, ',string))
+print(reserved_words.keys())
 
 #lista a ordenar de los tokens obtenidos
 tokens_unsorted = []
@@ -392,8 +434,8 @@ def cambiar_numeros(objeto_de_match):
   return 'abc'
 
 for i in lista_auxiliar:
-  first_match = re.search(RE_filas_columnas, i)
-  i = re.sub(RE_filas_columnas, cambiar_numeros, i)
+  first_match = re.search(RE_tokens, i)
+  i = re.sub(RE_tokens, cambiar_numeros, i)
 
 #print(arreglo_de_f_y_c)
 #aux = []

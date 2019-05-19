@@ -1,0 +1,15 @@
+// SÌmbolos
+, : ; 
+= + * - / ^ %
+< <= > >= == <>
+[ ] ( ) { }
+and or not
+
+// Identificadores:
+CANTIDAD cantidad Cantidad
+id1Con— ID2_con_Ò
+/* comentario 
+
+// esto no deberia importar
+  
+multilinea */

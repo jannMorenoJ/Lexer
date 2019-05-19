@@ -1,24 +1,57 @@
-// Comentario
-var!
-    n, suma, k : numerico
+/* asdfa
+aasdf
+<> - "asdfa s " 'aadfasdf' */
+/* hola <div class="btn-group btn-grouplg" role='group' aria-label="">
+    Add buttons here
+</div>
+*/
+//holaza
+/*asdfasdfa / / / / / / / / / /
 
+
+*/
+\n adfasdfasf */
+var
+    k : numerico
 inicio
-    imprimir ("Suma pares hasta n."," Ingrese n: ")
-    leer (n)
-    suma = 0.0
-    desde k=2 hasta n paso 2
-    {@
-        suma = suma + k
+    imprimir("\nIngrese fila y columna donde se encuentra el alfil:")
+    leer (f_inic, c_inic)
+    T = { {'.', ...},
+        ...
+        }
+    T [f_inic, c_inic] = 'A'
+    k = 1
+    mientras ( k <= TAM_TAB )
+    {
+        marcar (f_inic - k, c_inic - k)
+        marcar (f_inic - k, c_inic + k)
+        marcar (f_inic + k, c_inic - k)
+        marcar (f_inic + k, c_inic + k)
+        k = k + 1
     }
-    imprimir ("La suma es ", suma)
+    impr_tablero()
+fink
+
+subrutina marcar (f, c : numerico)
+inicio
+    si ( (f > 0 and f <= TAM_TAB) and
+    (c > 0 and c <= TAM_TAB)
+    )
+    {
+        T [f, c] = 'P'
+    }
 fin
+subrutina impr_tablero()
+var
+    f, c : numerico
+inicio fin
+    desde f = 1 hasta TAM_TAB
+    {
+        imprimir ("\n")
 
-
-
-
-
-
-
-
-
-<token_error, @, 10, 6>
+        desde c = 1 hasta TAM_TAB
+        {
+            imprimir ( T [f, c], ' ')
+        }
+    }
+fin

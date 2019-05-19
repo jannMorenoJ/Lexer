@@ -1,0 +1,468 @@
+// [====================================================================]
+// [ Elementos para el analisis lexicografico ]
+// [====================================================================]
+// (c) Juan Segovia Silvero (jsegovia@cnc.una.py)
+tipos
+LEXEMA : numerico
+var
+tk : LEXEMA // sgte. lexema que debe ser analizado
+lt : cadena // linea del texto analizado
+llt: numerico // longitud de lt
+up : numerico // ultima posicion leida dentro de lt
+var
+val_num : numerico // valor numerico de la constante leida
+val_time : logico
+subcad : cadena // el componente lexico en forma de cadena.
+// Ejemplo:
+// var
+// a, total;
+// tendra "a", luego la sgte. vez "total".
+tipos
+INFO_PAL_RESERV : registro
+{
+pal : cadena // "if", "while", etc.
+lex : LEXEMA // su valor numerico simbolico
+}
+var
+pal_reserv : vector [*] INFO_PAL_RESERV
+const
+S_CONST_NUM = 0
+S_NOMBRE_VAR = 2
+S_MENOS = 100
+S_MAS = 101
+S_MULT = 102
+S_DIV = 103
+S_PARENT_I = 110
+S_PARENT_D = 111
+S_LLAVE_I = 112
+S_LLAVE_D = 113
+S_MENOR = 120
+S_MENOR_IGUAL = 121
+S_MAYOR = 122
+S_MAYOR_IGUAL = 123
+S_IGUAL = 124
+S_DISTINTO = 125
+S_ASIGNACION = 130
+S_COMA = 131
+S_PUNTO_Y_COMA = 132
+R_VAR = 200
+R_INICIO = 201
+R_FIN = 202
+R_IF = 203
+R_ELSE = 204
+R_WHILE = 205
+R_READ = 220
+R_PRINT = 221
+// Utilizados mas bien como indicadores
+S_EOF = -1
+S_NADA = -2
+S_ERROR = -3
+// [====================================================================]
+// [ Elementos de la tabla de simbolos ]
+// [====================================================================]
+const
+MAX_SIMBOLOS = 300
+tipos
+TTipo : numerico
+const
+t_NUM = 1024
+t_TIME = 1025
+tipos
+INFO_SIMB : registro
+{
+nombre : cadena
+tipo : TTipo
+dir : numerico
+val_inicial : numerico
+}
+var
+tabs : vector [MAX_SIMBOLOS] INFO_SIMB
+cs : numerico // cantidad simbolos ya ingresados
+// [====================================================================]
+// [ Elementos de la generacion de "codigo" ]
+// [====================================================================]
+const
+MAX_CODIGO = 300 // solo 300 instrucciones...
+TOT_INSTRUCCIONES = 21
+tipos
+INSTRUCCION : numerico
+INFO_CODIGO : registro
+{
+inst : INSTRUCCION
+op : numerico
+}
+INFO_INSTR : registro
+{
+nombre : cadena
+usa_op : logico
+}
+var
+codigo : vector [MAX_CODIGO] INFO_CODIGO
+tot_inst : numerico
+info_instr : vector [TOT_INSTRUCCIONES] INFO_INSTR
+/*
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ATENCION ATENCION ATENCION ATENCION ATENCION
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+El "codigo" generado corresponde a una maquina hipotetica, basda en
+pila, cuyas instrucciones son:
+a) INSTRUCCIONES "RELACIONALES"
+b) INSTRUCCIONES "ARITMETICAS"
+c) MANIPULACION DE LA PILA
+d) SALTOS
+e) ENTRADA/SALIDA
+f) VARIOS
+*/
+const
+CX_CMP_MENOR = 1
+CX_CMP_MAYOR = 2
+CX_CMP_MENOR_IGUAL = 3
+CX_CMP_MAYOR_IGUAL = 4
+CX_CMP_IGUAL = 5
+CX_CMP_DISTINTO = 6
+CX_MAT_SUMAR = 7
+CX_MAT_RESTAR = 8
+CX_MAT_MULT = 9
+CX_MAT_DIV = 10
+CX_MAT_CAMB_SIGNO = 11
+CX_APILAR_CONST = 12
+CX_APILAR_VALOR_VAR = 13
+CX_IVAR = 14
+CX_APILAR_DIR = 15
+CX_ASIGNAR = 16
+CX_SALTAR = 17
+CX_SALTAR_SI_FALSO = 18
+CX_LEER = 19
+CX_IMPRIMIR = 20
+CX_PARAR = 21
+// [====================================================================]
+// [ Elementos para la ejecucion ]
+// [====================================================================]
+const
+MAX_MEMORIA = 500 // la memoria tiene lugar para 500 variables
+tipos
+ELEM_PILA : numerico
+var
+pila : vector [MAX_MEMORIA] ELEM_PILA
+tp : numerico
+// [====================================================================]
+// [ Otras variables ]
+// [====================================================================]
+var
+cant_error : numerico // cuantos errores se encontraron?
+mostrar_inst : logico
+const
+SE_ESPERA = "Se espera " // mensaje comun
+// [====================================================================]
+// [ PROGRAMA PRINCIPAL ]
+// [====================================================================]
+inicio
+cant_error = 0
+inicializar_pal_reserv()
+inicializar_scanner()
+inicializar_tabs()
+inicializar_codigo()
+si ( pudo_abrirse_fuente() )
+{
+sgte_lex()
+analizar_fuente()
+si ( cant_error == 0 )
+{
+si ( mostrar_inst )
+{
+imprimir_codigo()
+sino
+inicializar_interprete()
+/*
+Estuve leyendo desde el archivo que me pasaron como
+parametro. A partir de ahora, debo leer del teclado.
+Eso se hace con set_stdin ("")
+*/
+set_stdin ("")
+ejecutar()
+}
+}
+}
+fin
+subrutina pudo_abrirse_fuente() retorna logico
+var
+nomb_fuente : cadena
+p_archivo : numerico
+ok : logico
+inicio
+ok = NO
+si ( paramval (1) == "-d" )
+{
+mostrar_inst = SI
+p_archivo = 2
+sino
+mostrar_inst = NO
+p_archivo = 1
+}
+si ( pcount() < p_archivo )
+{
+imprimir ("\nFalta especificar archivo fuente MicroL")
+sino
+nomb_fuente = paramval (p_archivo)
+ok = set_stdin (nomb_fuente)
+si ( not ok )
+{
+imprimir ("\nNo pudo abrirse archivo ", nomb_fuente)
+ok = NO
+}
+}
+retorna ( ok )
+fin
+// ------------------%%%%%%%%%%--------------------
+// RUTINAS DEL SCANNER
+// ------------------%%%%%%%%%%--------------------
+subrutina inicializar_pal_reserv()
+inicio
+pal_reserv = { {"var", R_VAR },
+{"begin", R_INICIO },
+{"end", R_FIN },
+{"if", R_IF },
+{"else", R_ELSE },
+{"while", R_WHILE },
+{"read", R_READ },
+{"print", R_PRINT }
+}
+fin
+subrutina inicializar_scanner()
+/*
+- Indicar que aun no se leyo nada (llt=0)
+- Cambiar el separador de campo a fin-de-linea.
+De lo contrario "var a,b,c;" leera "var a", luego "b" y luego "c;".
+El cambio se hace con set_ifs().
+*/
+inicio
+lt = ""
+llt = 0
+up = 1
+set_ifs ('\n')
+fin
+subrutina leer_sgte_linea()
+/*
+Si no es eof, leer sgte. linea.
+Si eof, indicar tal situacion a sgte_lex() haciendo llt=-1.
+*/
+inicio
+si ( not eof() )
+{
+leer (lt)
+llt = strlen (lt)
+up = 0
+sino
+llt = -1
+}
+fin
+subrutina es_letra (c : cadena) retorna logico
+var
+r : logico
+inicio
+r = (c >= 'a' and c <= 'z') or
+(c >= 'A' and c <= 'Z')
+retorna ( r )
+fin
+subrutina es_digito (c : cadena) retorna logico
+var
+r : logico
+inicio
+r = (c >= '0' and c <= '9')
+retorna ( r )
+fin
+subrutina es_palabra_reserv (s : cadena
+ref ipr : INFO_PAL_RESERV) retorna logico
+/*
+Buscar la cadena s en la lista de palabras reservadas.
+Observar que ipf se pasa por referencia.
+*/
+var
+k : numerico
+enc : logico
+inicio
+enc = NO
+desde k=1 hasta alen (pal_reserv)
+{
+si ( s == pal_reserv [k].pal )
+{
+ipr = pal_reserv [k]
+enc = SI
+k = alen (pal_reserv)
+}
+}
+retorna ( enc )
+fin
+subrutina leer_identif()
+/*
+Leer un identificador, es decir, una secuencia de letra seguida
+de letra o digito.
+No existe un limite especifico en la longitud.
+Se viene aqui si...
+Caracter anterior fue una letra (que esta en lt [up]).
+Dado que una palabra reservada luce "igual" que una variable,
+al terminar de leer el identificador se verifica si no es
+una palabra reservada, que de ser, tk tendra su valor simbolico.
+*/
+var
+pos_i : numerico
+c : cadena
+ipr : INFO_PAL_RESERV
+inicio
+pos_i = up
+repetir
+inc (up)
+c = substr (lt, up, 1)
+hasta ( not (es_letra (c) or es_digito (c)) )
+dec (up)
+subcad = substr (lt, pos_i, (up - pos_i) + 1)
+si ( es_palabra_reserv (subcad, ipr) )
+{
+tk = ipr.lex
+sino
+tk = S_NOMBRE_VAR
+}
+fin
+subrutina leer_constante_entera() retorna cadena
+var
+pos_i : numerico
+c : cadena
+inicio
+pos_i = up
+repetir
+inc (up)
+c = substr (lt, up, 1)
+hasta ( not (es_digito(c)) )
+dec (up)
+retorna (substr (lt, pos_i, (up-pos_i) + 1))
+fin
+subrutina leer_constante_numerica()
+/*
+Leer una secuencia de digitos.
+Se viene aqui si...
+Caracter anterior fue un digito.
+Observar que aqui no se considera el signo.
+Una constante numerica puede se entera o decimal.
+No puede usarse notacion cientifica.
+*/
+var
+num_cad : cadena
+inicio
+tk = S_NADA
+num_cad = leer_constante_entera()
+si ( substr (lt, up+1, 1) == '.' )
+{
+inc (up, 2)
+si ( es_digito (substr (lt, up, 1)) )
+{
+num_cad = num_cad + '.' + leer_constante_entera()
+sino
+tk = S_ERROR
+}
+}
+val_num = val (num_cad)
+si ( tk == S_NADA )
+{
+tk = S_CONST_NUM
+}
+fin
+subrutina sgte_lex()
+/*
+- Identifica el sgte. lexema (token).
+- Si la linea se "acaba" lee otra linea, llamando a leer_sgte_linea().
+*/
+var
+c : cadena
+inicio
+tk = S_NADA
+subcad = ""
+mientras ( tk == S_NADA )
+{
+si ( up >= llt )
+{
+leer_sgte_linea()
+si ( llt == -1 )
+{
+tk = S_EOF
+}
+}
+si ( tk <> S_EOF )
+{
+inc (up)
+c = substr (lt, up, 1)
+eval
+{
+caso ( c == '' )
+;
+caso ( c == '\t' )
+;
+caso ( c == ' ' )
+;
+caso ( es_letra (c) )
+leer_identif()
+caso ( es_digito (c) )
+leer_constante_numerica()
+caso ( c == '+' )
+tk = S_MAS
+caso ( c == '-' )
+si ( lt [up+1] == '-' )
+{
+up = llt + 1
+sino
+tk = S_MENOS
+}
+caso ( c == '*' )
+tk = S_MULT
+caso ( c == '/' )
+tk = S_DIV
+caso ( c == '(' )
+tk = S_PARENT_I
+caso ( c == ')' )
+tk = S_PARENT_D
+caso ( c == '{' )
+tk = S_LLAVE_I
+caso ( c == '}' )
+tk = S_LLAVE_D
+caso ( c == ',' )
+tk = S_COMA
+caso ( c == ';' )
+tk = S_PUNTO_Y_COMA
+caso ( c == '<' )
+si ( lt [up+1] == '=' )
+{
+tk = S_MENOR_IGUAL
+inc (up)
+sino
+tk = S_MENOR
+}
+caso ( c == '>' )
+si ( lt [up+1] == '=' )
+{
+tk = S_MAYOR_IGUAL
+inc (up)
+sino
+tk = S_MAYOR
+}
+caso ( c == '=' )
+si ( lt [up+1] == '=' )
+{
+tk = S_IGUAL
+inc (up)
+sino
+tk = S_ASIGNACION
+}
+caso ( c == '!' )
+si ( lt [up+1] == '=' )
+{
+tk = S_DISTINTO
+inc (up)
+sino
+tk = S_ERROR
+}
+sino
+tk = S_ERROR
+subcad = c
+}
+}
+}
+fin

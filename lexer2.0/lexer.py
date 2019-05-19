@@ -53,22 +53,27 @@ def es_aceptado(indice, fila):
     aux_indice = indice
     aux_fila = fila
     auxii=""
-
-    a=""
     a = lineas[aux_fila][aux_indice]
     if((aux_indice) == (len(lineas[aux_fila])-1)):
         aux_fila += 1
         aux_indice = 0
-        if(es_valido_para(ER_indentificador,a)):
-            aux_indice +=1
-            auxii=auxii+a
-            while(es_valido_para(ER_indentificador,a)):
-                auxii=auxii+a
-                aux_indice +=1
-
-                break
     else:
-        indice += 1
+        auxii += a
+        while(True):
+            if(aux_fila == len(lineas)):
+                break
+            if((aux_indice) == (len(lineas[aux_fila])-1)):
+                break
+            else:
+                auxii += a
+                if(es_valido_para(ER_indentificador, auxii)):
+                    while(es_valido_para(ER_indentificador, auxii)):
+                        aux_indice += 1
+                        if ((aux_indice) == (len(lineas[aux_fila])-1)):
+                            break
+                        a = lineas[aux_fila][aux_indice]
+                        auxii += a
+
     return [auxii, aux_fila, aux_indice]
 
 """ def es_numero(n):
@@ -143,10 +148,13 @@ palabras_reservadas = {
     'upper': '<upper, ',
     'val': '<val, ',
     'logico': '<logico, ',
-    'verdadero': '<verdadero, '
+    'verdadero': '<verdadero, ',
+    'TRUE': '<TRUE, ',
+    'FALSE': '<FALSE, '
+
 }
 # EXPRESIONES REGULARES
-ER_indentificador = r'[\wñÑ]'  # Regex para caracter identificador
+ER_indentificador = r'\w'  # Regex para caracter identificador
 ER_digito = r'\d'  # Regex para digitos
 ER_Entero = r'[-?\d]+'
 

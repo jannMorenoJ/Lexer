@@ -1,0 +1,13 @@
+var // Comentario final de linea
+
+// Palabras reservadas
+and archivo caso const
+constantes desde eval fin
+hasta inicio lib libext
+matriz mientras not or
+paso subrutina programa ref
+registro repetir retorna si
+sino tipos var variables vector
+
+// tipos de dato
+cadena logico numerico
