@@ -64,3 +64,35 @@ def p_Identificador2(p):
 def p_Identificador21(p):
     ''' Identificador2 : empty'''
     pass
+
+
+def p_Constantes(p):
+    ''' Constantes : const id tk_asig TiposConstantes Constantes2 '''
+
+
+def p_Constantes2(p):
+    ''' Constantes2 : id tk_asig TiposConstantes Constantes2'''
+
+
+def p_Constantes21(p):
+    ''' Constantes2 : empty'''
+
+
+def p_TiposConstantes(p):
+    ''' TiposConstantes : id  '''
+
+
+def p_TiposConstantes1(p):
+    ''' TiposConstantes : numerico'''
+
+
+def p_TiposConstantes2(p):
+    ''' TiposConstantes : logico'''
+
+
+def p_TiposConstantes3(p):
+    ''' TiposConstantes : tk_cadena'''
+
+
+def p_EsNumero(p):
+    ''' Identificador'''
