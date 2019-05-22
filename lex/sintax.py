@@ -360,171 +360,138 @@ def p_ListaMatrices1(p):
 
 
 def p_ListaMatrices2(p):
-
-'''ListaMatrices : tk_coma tk_tres_puntos'''
+    '''ListaMatrices : tk_coma tk_tres_puntos'''
 
 
 def p_ListaMatrices3(p):
-
-'''ListaMatrices : empty'''
-pass
+    '''ListaMatrices : empty'''
+    pass
 
 
 def p_ListaVector1(p):
-
-'''ListaVector : tk_coma VectorInit ListaVector'''
+    '''ListaVector : tk_coma VectorInit ListaVector'''
 
 
 def p_ListaVector2(p):
-
-
-'''ListaVector : tk_coma tk_tres_puntos'''
+    '''ListaVector : tk_coma tk_tres_puntos'''
 
 
 def p_ListaVector3(p):
-
-'''ListaVector : empty'''
-pass
+    '''ListaVector : empty'''
+    pass
 
 
 def p_MatrizInit(p):
-
-'''MatrizInit : tk_llave_izq VectorInit ListaVector tk_llave_der'''
+    '''MatrizInit : tk_llave_izq VectorInit ListaVector tk_llave_der'''
 
 
 def p_ListaDatos1(p):
-
-'''ListaDatos : empty'''
-pass
+    '''ListaDatos : empty'''
+    pass
 
 
 def p_ListaDatos2(p):
-
-'''ListaDatos : tk_coma Dato ListaDatos'''
+    '''ListaDatos : tk_coma Dato ListaDatos'''
 
 
 def p_ValoresVector1(p):
-
-'''ValoresVector : Dato ListaDatos'''
+    '''ValoresVector : Dato ListaDatos'''
 
 
 def p_ValoresVector2(p):
-
-'''ValoresVector : tk_coma tk_tres_puntos'''
+    '''ValoresVector : tk_coma tk_tres_puntos'''
 
 
 def p_ValoresVector3(p):
-
-'''ValoresVector : empty'''
-pass
+    '''ValoresVector : empty'''
+    pass
 
 
 def p_VectorInit(p):
-
-'''VectorInit : tk_llave_izq ValoresVector tk_llave_der'''
+    '''VectorInit : tk_llave_izq ValoresVector tk_llave_der'''
 
 
 def p_ListaParametrosSubrutina1(p):
-
-'''ListaParametrosSubrutina : empty'''
-pass
+    '''ListaParametrosSubrutina : empty'''
+    pass
 
 
 def p_ListaParametrosSubrutina2(p):
-
-'''ListaParametrosSubrutina : id tk_dospuntos TipoDato ListaParametrosSubrutina'''
+    '''ListaParametrosSubrutina : id tk_dospuntos TipoDato ListaParametrosSubrutina'''
 
 
 def p_ParametrosSubrutina1(p):
-
-'''ParametrosSubrutina : empty'''
-pass
+    '''ParametrosSubrutina : empty'''
+    pass
 
 
 def p_ParametrosSubrutina2(p):
-
-'''ParametrosSubrutina : id tk_dospuntos TipoDato ListaParametrosSubrutina'''
+    '''ParametrosSubrutina : id tk_dospuntos TipoDato ListaParametrosSubrutina'''
 
 
 def p_ParametrosSubrutina3(p):
-
-'''ParametrosSubrutina : ref id tk_dospuntos TipoDato ListaParametrosSubrutina'''
+    '''ParametrosSubrutina : ref id tk_dospuntos TipoDato ListaParametrosSubrutina'''
 
 
 def p_Funcion(p):
-
-'''Funcion : subrutina id tk_par_izq ParametrosSubrutina tk_par_der retorna tk_par_izq id Declaraciones inicio Sentencias retorna tk_par_izq id tk_par_der fin Subrutinabase'''
+    '''Funcion : subrutina id tk_par_izq ParametrosSubrutina tk_par_der retorna tk_par_izq id Declaraciones inicio Sentencias retorna tk_par_izq id tk_par_der fin Subrutinabase'''
 
 
 def p_Metodo(p):
-
-'''Metodo : subrutina id tk_par_izq ParametrosSubrutina tk_par_der Declaraciones inicio Sentencias fin Subrutinabase'''
+    '''Metodo : subrutina id tk_par_izq ParametrosSubrutina tk_par_der Declaraciones inicio Sentencias fin Subrutinabase'''
 
 
 def p_Subrutinabase1(p):
-
-'''Subrutinabase : Metodo'''
+    '''Subrutinabase : Metodo'''
 
 
 def p_Subrutinabase2(p):
-
-'''Subrutinabase : Funcion'''
+    '''Subrutinabase : Funcion'''
 
 
 def p_Subrutinabase3(p):
-
-'''Subrutinabase : empty'''
-pass
+    '''Subrutinabase : empty'''
+    pass
 
 
 def p_OperadorComparacion1(p):
-
-'''OperadorComparacion : tk_mayor_igual_que'''
+    '''OperadorComparacion : tk_mayor_igual_que'''
 
 
 def p_OperadorComparacion2(p):
-
-'''OperadorComparacion : tk_menor_igual_que'''
+    '''OperadorComparacion : tk_menor_igual_que'''
 
 
 def p_OperadorComparacion3(p):
-
-'''OperadorComparacion : tk_igual_que'''
+    '''OperadorComparacion : tk_igual_que'''
 
 
 def p_OperadorComparacion4(p):
-
-'''OperadorComparacion : tk_mayor_que'''
+    '''OperadorComparacion : tk_mayor_que'''
 
 
 def p_OperadorComparacion5(p):
-
-'''OperadorComparacion : tk_menor_que'''
+    '''OperadorComparacion : tk_menor_que'''
 
 
 def p_OperadorComparacion6(p):
-
-'''OperadorComparacion : tk_distinto'''
+    '''OperadorComparacion : tk_distinto'''
 
 
 def p_ValoresComparacion1(p):
-
-'''ValoresComparacion : id'''
+    '''ValoresComparacion : id'''
 
 
 def p_ValoresComparacion2(p):
-
-'''ValoresComparacion : tk_numero'''
+    '''ValoresComparacion : tk_numero'''
 
 
 def p_ValoresComparacion3(p):
-
-'''ValoresComparacion : logico'''
+    '''ValoresComparacion : logico'''
 
 
 def p_ValoresComparacion4(p):
-
-'''ValoresComparacion : cadena'''
+    '''ValoresComparacion : cadena'''
 
 
 def p_Comparacion(p):
