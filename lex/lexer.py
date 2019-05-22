@@ -10,79 +10,6 @@ operadores = ['tk_punto', 'tk_coma', 'tk_dospuntos', 'tk_par_izq', 'tk_par_der',
               'tk_igual_que', 'tk_menor_que', 'tk_mayor_que', 'tk_menor_igual_que', 'tk_mayor_igual_que', 'tk_potenciacion', 'tk_modulo', 'tk_division', 'tk_suma', 'tk_resta', 'tk_multiplicacion']
 tokens = reservadas + operadores + ['id', 'tk_numero', 'tk_cadena']
 
-'''
-reservadas = {
-  'and': 'and',
-  'constantes' : 'constantes',
-  'hasta' : 'hasta',
-  'matriz' : 'matriz',
-  'paso' : 'paso',
-  'regitro' : 'regitro',
-  'sino' : 'sino',
-  'vector' : 'vector',
-  'archivo' : 'archivo',
-  'desde' : 'desde',
-  'inicio' : 'inicio',
-  'mientras' : 'mientras',
-  'subrutina' :'subrutina',
-  'repetir' : 'repetir',
-  'tipos' : 'tipos',
-  'caso' : 'caso',
-  'eval' : 'eval',
-  'lib' : 'lib',
-  'not': 'not',
-  'programa' : 'programa',
-  'retorna' : 'retorna',
-  'var' : 'var',
-  'const' : 'const',
-  'fin' : 'fin',
-  'libext' : 'libext',
-  'or' : 'or',
-  'ref' : 'ref',
-  'si' : 'si',
-  'variables' : 'variables',
-  'numerico' : 'numerico',
-  'imprimir' : 'imprimir',
-  'leer': 'leer',
-  'dim' : 'dim',
-  'cls' : 'cls',
-  'set_ifs' : 'set_ifs',
-  'abs' : 'abs',
-  'arctan' : 'arctan',
-  'ascii' : 'ascii',
-  'cos' : 'cos',
-  'dec' : 'dec',
-  'eof' : 'eof',
-  'exp' : 'exp',
-  'get_ifs' : 'get_ifs',
-  'inc' : 'inc',
-  'int' : 'int',
-  'log' : 'log',
-  'lower' : 'lower',
-  'mem' : 'mem',
-  'ord' : 'ord',
-  'paramval' : 'paramval',
-  'pcount' : 'pcount',
-  'pos' : 'pos',
-  'random' : 'random',
-  'sec' : 'sec',
-  'set_stdin' : 'set_stdin',
-  'set_stdout' : 'set_stdout',
-  'sin' : 'sin',
-  'sqrt' : 'sqrt',
-  'srt' : 'srt',
-  'strdup' : 'strdup',
-  'strlen' : 'strlen',
-  'tan' : 'tan',
-  'upper' : 'upper',
-  'val' : 'val',
-  'logico' : 'logico',
-  'verdadero' : 'verdadero'
-}
-
-tokens = tokens + list(reservadas.values())
-'''
-
 
 def find_column(input, token):
     line_start = input.rfind('\n', 0, token.lexpos) + 1
@@ -148,7 +75,7 @@ def t_tk_numero(t):
 
 
 def t_tk_cadena(t):
-    r"(\'((\\\'|[^\'\n])*(\+\n)?)*\')|(\"((\\\"|[^\"\n])*(\+\n)?)*\")"
+    r"(\'((\\\'|[^\'\n])*(\'[\s]?\+\n\')?)*\')|(\"((\\\"|[^\"\n])*(\"[\s]?\+\n\")?)*\")"
     return t
 
 
@@ -166,7 +93,6 @@ def buscar_fichero(directorio):
     cont = 1
     for base, dirs, files in os.walk(directorio):
         ficheros.append(files)
-    print(ficheros[0][0])
     for file in files:
         print(str(cont)+" "+file)
         cont += 1
@@ -188,14 +114,31 @@ fo.close()
 
 analizador = lex.lex()
 analizador.input(cadena)
-
+tokens_finales = []
 while True:
     tok = analizador.token()
     if not(tok):
         break
     tok.lexpos = encontrar_columna(tok)
     if((tok.type in reservadas)or(tok.type in operadores)):
+        tokens_finales.append(
+            '<'+tok.type+', '+str(tok.lineno)+', '+str(tok.lexpos)+'>')
         print('<'+tok.type+', '+str(tok.lineno)+', '+str(tok.lexpos)+'>')
     else:
+        tokens_finales.append('<'+tok.type+', '+tok.value +
+                              ', '+str(tok.lineno)+', '+str(tok.lexpos)+'>')
         print('<'+tok.type+', '+tok.value+', ' +
               str(tok.lineno)+', '+str(tok.lexpos)+'>')
+
+
+def escribir_en_archivo(path_al_archivo, cadena):
+    f = open(path_al_archivo, 'a')
+    f.write(cadena+'\n')
+    f.close()
+
+
+f = open('../analizador_sintactico/tokens/prueba.txt', 'w')
+f.write('')
+f.close()
+for i in tokens_finales:
+    escribir_en_archivo('../analizador_sintactico/tokens/prueba.txt', i)

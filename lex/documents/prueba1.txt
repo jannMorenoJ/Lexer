@@ -1,7 +1,0 @@
-//hola este es un ejemplo
-/*asdfasdfasdfasdf
-asdfasdfasdfasdf
-*/
-1 = 2;
-+1e-12
-numerico
