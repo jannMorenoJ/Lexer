@@ -7,7 +7,7 @@ import sys
 reservadas = ['and', 'constantes', 'hasta', 'matriz', 'paso', 'regitro', 'sino', 'vector', 'archivo', 'desde', 'inicio', 'mientras', 'subrutina', 'repetir', 'tipos', 'caso', 'eval', 'lib', 'not', 'programa', 'retorna', 'var', 'const', 'fin', 'libext', 'or', 'ref', 'si', 'variables', 'numerico', 'imprimir', 'leer', 'dim',
               'cls', 'set_ifs', 'abs', 'arctan', 'ascii', 'cos', 'dec', 'eof', 'exp', 'get_ifs', 'inc', 'int', 'log', 'lower', 'mem', 'ord', 'paramval', 'pcount', 'pos', 'random', 'sec', 'set_stdin', 'set_stdout', 'sin', 'sqrt', 'srt', 'strdup', 'strlen', 'tan', 'upper', 'val', 'logico', 'verdadero', 'TRUE', 'FALSE', 'SI', 'NO']
 operadores = ['tk_punto', 'tk_coma', 'tk_dospuntos', 'tk_par_izq', 'tk_par_der', 'tk_punto_y_coma', 'tk_asig', 'tk_llave_izq', 'tk_llave_der', 'tk_corchete_izq', 'tk_corchete_der', 'tk_distinto',
-              'tk_igual_que', 'tk_menor_que', 'tk_mayor_que', 'tk_menor_igual_que', 'tk_mayor_igual_que', 'tk_potenciacion', 'tk_modulo', 'tk_division', 'tk_suma', 'tk_resta', 'tk_multiplicacion']
+              'tk_igual_que', 'tk_menor_que', 'tk_mayor_que', 'tk_menor_igual_que', 'tk_mayor_igual_que', 'tk_potenciacion', 'tk_modulo', 'tk_division', 'tk_suma', 'tk_resta', 'tk_multiplicacion', 'tk_tres_puntos']
 tokens = reservadas + operadores + ['id', 'tk_numero', 'tk_cadena']
 
 
@@ -44,6 +44,7 @@ t_tk_division = r'\/'
 t_tk_multiplicacion = r'\*'
 t_tk_suma = r'\+'
 t_tk_resta = r'\-'
+t_tk_tres_puntos = r'\.\.\.'
 
 
 def t_comment(t):
