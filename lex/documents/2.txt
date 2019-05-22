@@ -1,15 +1,47 @@
-// Simbolos
-, : ;
-= + * - / ^ %
-< <= > >= == <>
-[ ] ( ) { }
-and or not
+/**/
+const
+  PI = 3.141592654
+var
+  v_disp, // Velocidad inicial
+  a_disp : numerico // Angulo de disparo
+  a_disp_rad : numerico // Igual que a_disp pero en radianes
+  h_max : numerico // Altura maxima
 
-// Identificadores:
-CANTIDAD cantidad Cantidad
-id1Con ID2_con_
-/* comentario
+inicio
+/*
+Pidamos al usuario que ingrese velocidad inicial y angulo de
+disparo. Este ultimo debe estar en grados sexagesimales.
+*/
 
-// esto no deberia importar
+  imprimir ("\n\n",
+            "Ingrese velocidad inicial, angulo de disparo en sexagesimales:")
+  leer (v_disp, a_disp)
+  // La funcion sin() opera con radianes y nosotros leimos en sexagesimales.
+  a_disp_rad = a_disp * PI / 180
+  h_max = ( (v_disp * sin (a_disp_rad) ) ^ 2 ) / (2 * 9.8)
+  imprimir ("\n\nAltura maxima=", h_max)
+  a = (b + c) * (b / y) +
+    (y / c)		// Sentencia v�lida a nivel sintactico
+  a = b + c; n = a / y	// Estas tambien, separadas por ;
+  a = b - c % 10 + 1
+  y = v0y * t + 1/2 * -g * t^2 // sin parentesis
+  y = (v0y * t) + ( (1/2)*(-g)*(t^2) )
+  
+  let = let [1]
+  eval
+  {
+    caso ( let >= 'A' and let <= 'Z' )
+      msg = 'letra mayuscula'
+    caso ( let >= 'a' and let <= 'z' )
+      msg = 'letra minuscula'
+    caso ( let >= '0' and let <= '9' )
+      msg = 'digito'
+    sino
+      msg = 'algon otro'
+  }
+fin 
 
-multilinea */
+/* Comentario
+final del
+programa
+*/

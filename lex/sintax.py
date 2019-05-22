@@ -130,10 +130,6 @@ def p_Dato3(p):
     ''' Dato : logico '''
 
 
-def p_Dato4(p):
-    ''' Dato : logico '''
-
-
 def p_Dato5(p):
     ''' Dato : Estructura '''
 
@@ -508,7 +504,7 @@ def p_ExpresionLogica22(p):
 
 def p_ExpresionLogica23(p):
     '''ExpresionLogica2 : empty'''
-pass
+    pass
 
 
 def p_ExpresionLogica1(p):
@@ -600,3 +596,90 @@ def p_Aux32(p):
 
 def p_If(p):
     '''If : si tk_par_izq Condicion tk_par_der tk_llave_izq Sentencias Aux'''
+def p_error(p):
+    print('error')
+
+def buscar_fichero(directorio):
+    ficheros = []
+    numArchivo = ''
+    respuesta = False
+    cont = 1
+    for base, dirs, files in os.walk(directorio):
+        ficheros.append(files)
+    for file in files:
+        print(str(cont)+" "+file)
+        cont += 1
+    while respuesta == False:
+        numArchivo = input('\nNumero de la prueba: ')
+        for file in files:
+            if file == files[int(numArchivo)-1]:
+                respuesta = True
+                break
+    return files[int(numArchivo)-1]
+
+
+
+def abrir_y_listar():
+    f = open('../analizador_sintactico/tokens/prueba.txt', 'r')
+    arr = f.readlines()
+    for i in range(len(arr)):
+        aux = arr[i]
+        aux = aux[:-1]
+        arr[i] = aux
+    f.close()
+    return arr
+
+
+def get_next_token(lista_tokens):
+    return lista_tokens.pop(0)
+
+
+def get_proximo_token(lista_tokens):
+    return lista_tokens[0]
+
+
+def emparejar():
+    if(token == tok_esperado):
+        token = lexico.get_next_token()
+    else:
+        errorSintaxis(tok_esperado)
+    return
+
+
+# Lista de tokens
+tokens = abrir_y_listar()
+# aqui solo se almacenara solo el tipo de token mas no su lexema o ubicacion
+tipos_de_token = []
+
+
+def obtener_lexema(cadena):
+    '''
+    Esta funcion se utiliza para obtener el tipo de token de un token dado
+    '''
+    arr = cadena.split(',')
+    return arr[0][1:len(arr[0])]
+
+
+# cargando los tipos de tokens en el arreglo tipos_de_tokens
+for i in range(len(tokens)):
+    tipos_de_token.append(obtener_lexema(tokens[i]))
+
+
+# Reglas de la gramatica
+# simbolo inicial de la gramatica
+if ( not('programa' in tipos_de_token)):
+    print('Error sintactico falta funcion principal')
+else:
+    print('.')
+
+
+directorio = '/home/jann/Documents/UN/2019-1/Lenguajes/analizadorLexico/lex/documents/'
+archivo = buscar_fichero(directorio)
+test = directorio+archivo
+fo = codecs.open(test, 'r', 'utf-8')
+cadena = fo.read()
+fo.close()
+parser = yacc.yacc()
+result = parser.parse(cadena)
+
+print(result)

@@ -1,0 +1,364 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    <desde, 19, 3>
+    <fin, 24, 1>
+    <hasta, 19, 13>
+    <id, k, 13, 12>
+    <id, k, 19, 9>
+    <id, k, 21, 19>
+    <id, n, 13, 3>
+    <id, n, 17, 9>
+    <id, n, 19, 19>
+    <id, suma, 13, 6>
+    <id, suma, 18, 3>
+    <id, suma, 21, 12>
+    <id, suma, 21, 5>
+    <id, suma, 23, 30>
+    <id, uno, 1, 10>
+    <imprimir, 15, 3>
+    <imprimir, 23, 3>
+    <inicio, 14, 1>
+    <leer, 17, 3>
+    <numerico, 13, 16>
+    <paso, 19, 21>
+    <programa, 1, 1>
+    <tk_asig, 18, 8>
+    <tk_asig, 19, 10>
+    <tk_asig, 21, 10>
+    <tk_cadena, "\nLa suma es ", 23, 13>
+    <tk_cadena, "\nSuma de numeros pares entre 1 y n.\nPor favor ", 15, 13>
+    <tk_cadena, "ingrese un valor para n: ", 16, 13>
+    <tk_coma, 13, 10>
+    <tk_coma, 13, 4>
+    <tk_coma, 15, 63>
+    <tk_coma, 23, 28>
+    <tk_corchete_der, 22, 3>
+    <tk_corchete_izq, 20, 3>
+    <tk_dospuntos, 13, 14>
+    <tk_numero, 0, 18, 10>
+    <tk_numero, 2, 19, 11>
+    <tk_numero, 2, 19, 26>
+    <tk_par_der, 16, 40>
+    <tk_par_der, 17, 10>
+    <tk_par_der, 23, 34>
+    <tk_par_izq, 15, 12>
+    <tk_par_izq, 17, 8>
+    <tk_par_izq, 23, 12>
+    <tk_suma, 21, 17>
+    <var, 12, 1>
+
+Grammar
+
+Rule 0     S' -> S
+Rule 1     S -> Programa Declaraciones inicio Sentencias fin Subrutinas
+Rule 2     Programa -> programa id
+Rule 3     Programa -> empty
+Rule 4     Declaraciones -> Constantes Puntoycoma Declaraciones
+Rule 5     Declaraciones -> Tipos Puntoycoma Declaraciones
+Rule 6     Declaraciones -> empty
+Rule 7     Puntoycoma -> tk_punto_y_coma
+Rule 8     Puntoycoma -> empty
+Rule 9     Identificador -> id Identificador2
+Rule 10    Identificador2 -> tk_punto id
+Rule 11    Identificador2 -> empty
+Rule 12    Constantes -> const id tk_asig TiposConstantes Constantes2
+Rule 13    Constantes2 -> id tk_asig TiposConstantes Constantes2
+Rule 14    Constantes2 -> empty
+Rule 15    TiposConstantes -> id
+Rule 16    TiposConstantes -> numerico
+Rule 17    TiposConstantes -> logico
+Rule 18    TiposConstantes -> tk_cadena
+Rule 19    EsNumero -> Identificador
+Rule 20    EsNumero -> tk_numero
+Rule 21    EsNumero -> tk_suma tk_numero
+Rule 22    EsNumero -> tk_resta tk_numero
+Rule 23    EsNumero -> OperacionMatematica
+Rule 24    EsNumero -> LlamadoFuncion
+Rule 25    Dato -> tk_cadena Dato2
+Rule 26    Dato -> EsNumero
+Rule 27    Dato -> logico
+Rule 28    Dato -> Estructura
+Rule 29    Dato -> Registro
+Rule 30    Dato2 -> tk_cadena
+Rule 31    Dato2 -> empty
+Rule 32    Operador -> tk_suma
+Rule 33    Operador -> tk_resta
+Rule 34    Operador -> tk_multiplicacion
+Rule 35    Operador -> tk_division
+Rule 36    Operador -> tk_modulo
+Rule 37    Operador -> tk_potenciacion
+Rule 38    OperacionMatematica -> tk_par_izq OperacionMatematica tk_par_der OperacionMatematica2
+Rule 39    OperacionMatematica -> EsNumero OperacionMatematica2
+Rule 40    OperacionMatematica -> Funcion OperacionMatematica2
+Rule 41    OperacionMatematica2 -> Operador OperacionMatematica
+Rule 42    OperacionMatematica2 -> empty
+Rule 43    TipoDato -> numerico
+Rule 44    TipoDato -> cadena
+Rule 45    TipoDato -> logico
+Rule 46    TipoDato -> id
+Rule 47    TipoDato -> Estructura
+Rule 48    TipoDato -> Registro
+Rule 49    VariantesIgualdad -> tk_dospuntos tk_asig
+Rule 50    ListaId -> tk_coma id ListaId
+Rule 51    ListaId -> empty
+Rule 52    Variables -> id VariablesFix
+Rule 53    VariablesFix -> ListaId tk_dospuntos TipoDato Variables2
+Rule 54    VariablesFix -> tk_asig Dato Variables2
+Rule 55    Variables2 -> id Variables2Fix
+Rule 56    Variables2Fix -> ListaId tk_dospuntos TipoDato Variables2
+Rule 57    Variables2Fix -> tk_asig Dato Variables
+Rule 58    Tipos -> id tk_dospuntos TipoDato tipos
+Rule 59    Estructura -> vector tk_corchete_izq Dim1 tk_corchete_der TipoDato
+Rule 60    Estructura -> matriz tk_corchete_izq Dim tk_corchete_der TipoDato
+Rule 61    Dim1 -> tk_multiplicacion
+Rule 62    Dim1 -> numerico
+Rule 63    Dim -> Dim1 tk_coma Dim2
+Rule 64    Dim2 -> Dim1 DimFix
+Rule 65    DimFix -> tk_coma
+Rule 66    DimFix -> empty
+Rule 67    Registro -> regitro tk_llave_izq Variables tk_llave_der
+Rule 68    Sentencias -> EstructuraControl Sentencias
+Rule 69    Sentencias -> empty
+Rule 70    LlamadoFuncion -> id tk_par_izq Parametros tk_par_der
+Rule 71    Parametros -> Identificador ListaParametros
+Rule 72    Parametros -> LlamadoFuncion ListaParametros
+Rule 73    Parametros -> empty
+Rule 74    ListaParametros -> tk_coma Identificador ListaParametros
+Rule 75    ListaParametros -> tk_coma Dato ListaParametros
+Rule 76    ListaParametros -> tk_coma LlamadoFuncion ListaParametros
+Rule 77    ListaParametros -> empty
+Rule 78    Asignacion -> Identificador tk_asig Dato
+Rule 79    EstructuraControl -> If Mientras RepetirHasta Desde Eval
+Rule 80    ListaMatrices -> tk_coma MatrizInit ListaMatrices
+Rule 81    ListaMatrices -> tk_coma tk_tres_puntos
+Rule 82    ListaMatrices -> empty
+Rule 83    ListaVector -> tk_coma VectorInit ListaVector
+Rule 84    ListaVector -> tk_coma tk_tres_puntos
+Rule 85    ListaVector -> empty
+Rule 86    MatrizInit -> tk_llave_izq VectorInit ListaVector tk_llave_der
+Rule 87    ListaDatos -> empty
+Rule 88    ListaDatos -> tk_coma Dato ListaDatos
+Rule 89    ValoresVector -> Dato ListaDatos
+Rule 90    ValoresVector -> tk_coma tk_tres_puntos
+Rule 91    ValoresVector -> empty
+Rule 92    VectorInit -> tk_llave_izq ValoresVector tk_llave_der
+Rule 93    ListaParametrosSubrutina -> empty
+Rule 94    ListaParametrosSubrutina -> id tk_dospuntos TipoDato ListaParametrosSubrutina
+Rule 95    ParametrosSubrutina -> empty
+Rule 96    ParametrosSubrutina -> id tk_dospuntos TipoDato ListaParametrosSubrutina
+Rule 97    ParametrosSubrutina -> ref id tk_dospuntos TipoDato ListaParametrosSubrutina
+Rule 98    Funcion -> subrutina id tk_par_izq ParametrosSubrutina tk_par_der retorna tk_par_izq id Declaraciones inicio Sentencias retorna tk_par_izq id tk_par_der fin Subrutinabase
+Rule 99    Metodo -> subrutina id tk_par_izq ParametrosSubrutina tk_par_der Declaraciones inicio Sentencias fin Subrutinabase
+Rule 100   Subrutinabase -> Metodo
+Rule 101   Subrutinabase -> Funcion
+Rule 102   Subrutinabase -> empty
+Rule 103   OperadorComparacion -> tk_mayor_igual_que
+Rule 104   OperadorComparacion -> tk_menor_igual_que
+Rule 105   OperadorComparacion -> tk_igual_que
+Rule 106   OperadorComparacion -> tk_mayor_que
+Rule 107   OperadorComparacion -> tk_menor_que
+Rule 108   OperadorComparacion -> tk_distinto
+Rule 109   ValoresComparacion -> id
+Rule 110   ValoresComparacion -> tk_numero
+Rule 111   ValoresComparacion -> logico
+Rule 112   ValoresComparacion -> cadena
+Rule 113   Comparacion -> ValoresComparacion OperadorComparacion ValoresComparacion
+Rule 114   ExpresionLogica2 -> and ExpresionLogica
+Rule 115   ExpresionLogica2 -> or ExpresionLogica
+Rule 116   ExpresionLogica2 -> empty
+Rule 117   ExpresionLogica -> logico ExpresionLogica2
+Rule 118   ExpresionLogica -> id ExpresionLogica2
+Rule 119   ExpresionLogica -> not ExpresionLogica ExpresionLogica2
+Rule 120   ExpresionLogica -> Funcion ExpresionLogica2
+Rule 121   ExpresionLogica -> Comparacion ExpresionLogica2
+Rule 122   ExpresionLogica -> tk_par_izq ExpresionLogica tk_par_der ExpresionLogica2
+Rule 123   Eval -> eval tk_llave_izq Casos Sino tk_llave_der
+Rule 124   Casos -> caso tk_par_izq Condicion tk_par_der Sentencias Casos
+Rule 125   Casos -> empty
+Rule 126   Sino -> sino tk_par_izq Condicion tk_par_der Sentencias
+Rule 127   Sino -> empty
+Rule 128   Paso -> empty
+Rule 129   Paso -> paso EsNumero
+Rule 130   Desde -> desde id tk_asig EsNumero hasta EsNumero Paso tk_llave_izq Sentencias tk_llave_der
+Rule 131   RepetirHasta -> repetir Sentencias hasta tk_par_izq Condicion tk_par_der
+Rule 132   Mientras -> mientras tk_par_izq Condicion tk_par_der tk_llave_izq Sentencias tk_llave_der
+Rule 133   Aux -> sino Aux2
+Rule 134   Aux2 -> Sentencias tk_llave_der
+Rule 135   Aux2 -> si Sentencias Aux3
+Rule 136   Aux3 -> Aux
+Rule 137   Aux3 -> Sino tk_llave_der
+Rule 138   If -> si tk_par_izq Condicion tk_par_der tk_llave_izq Sentencias Aux
+
+Terminals, with rules where they appear
+
+<desde, 19, 3>       : 
+<fin, 24, 1>         : 
+<hasta, 19, 13>      : 
+<id, k, 13, 12>      : 
+<id, k, 19, 9>       : 
+<id, k, 21, 19>      : 
+<id, n, 13, 3>       : 
+<id, n, 17, 9>       : 
+<id, n, 19, 19>      : 
+<id, suma, 13, 6>    : 
+<id, suma, 18, 3>    : 
+<id, suma, 21, 12>   : 
+<id, suma, 21, 5>    : 
+<id, suma, 23, 30>   : 
+<id, uno, 1, 10>     : 
+<imprimir, 15, 3>    : 
+<imprimir, 23, 3>    : 
+<inicio, 14, 1>      : 
+<leer, 17, 3>        : 
+<numerico, 13, 16>   : 
+<paso, 19, 21>       : 
+<programa, 1, 1>     : 
+<tk_asig, 18, 8>     : 
+<tk_asig, 19, 10>    : 
+<tk_asig, 21, 10>    : 
+<tk_cadena, "\nLa suma es ", 23, 13> : 
+<tk_cadena, "\nSuma de numeros pares entre 1 y n.\nPor favor ", 15, 13> : 
+<tk_cadena, "ingrese un valor para n: ", 16, 13> : 
+<tk_coma, 13, 10>    : 
+<tk_coma, 13, 4>     : 
+<tk_coma, 15, 63>    : 
+<tk_coma, 23, 28>    : 
+<tk_corchete_der, 22, 3> : 
+<tk_corchete_izq, 20, 3> : 
+<tk_dospuntos, 13, 14> : 
+<tk_numero, 0, 18, 10> : 
+<tk_numero, 2, 19, 11> : 
+<tk_numero, 2, 19, 26> : 
+<tk_par_der, 16, 40> : 
+<tk_par_der, 17, 10> : 
+<tk_par_der, 23, 34> : 
+<tk_par_izq, 15, 12> : 
+<tk_par_izq, 17, 8>  : 
+<tk_par_izq, 23, 12> : 
+<tk_suma, 21, 17>    : 
+<var, 12, 1>         : 
+error                : 
+
+Nonterminals, with rules where they appear
+
+Asignacion           : 
+Aux                  : 136 138
+Aux2                 : 133
+Aux3                 : 135
+Casos                : 123 124
+Comparacion          : 121
+Condicion            : 124 126 131 132 138
+Constantes           : 4
+Constantes2          : 12 13
+Dato                 : 54 57 75 78 88 89
+Dato2                : 25
+Declaraciones        : 1 4 5 98 99
+Desde                : 79
+Dim                  : 60
+Dim1                 : 59 63 64
+Dim2                 : 63
+DimFix               : 64
+EsNumero             : 26 39 129 130 130
+Estructura           : 28 47
+EstructuraControl    : 68
+Eval                 : 79
+ExpresionLogica      : 114 115 119 122
+ExpresionLogica2     : 117 118 119 120 121 122
+Funcion              : 40 101 120
+Identificador        : 19 71 74 78
+Identificador2       : 9
+If                   : 79
+ListaDatos           : 88 89
+ListaId              : 50 53 56
+ListaMatrices        : 80
+ListaParametros      : 71 72 74 75 76
+ListaParametrosSubrutina : 94 96 97
+ListaVector          : 83 86
+LlamadoFuncion       : 24 72 76
+MatrizInit           : 80
+Metodo               : 100
+Mientras             : 79
+OperacionMatematica  : 23 38 41
+OperacionMatematica2 : 38 39 40
+Operador             : 41
+OperadorComparacion  : 113
+Parametros           : 70
+ParametrosSubrutina  : 98 99
+Paso                 : 130
+Programa             : 1
+Puntoycoma           : 4 5
+Registro             : 29 48
+RepetirHasta         : 79
+S                    : 0
+Sentencias           : 1 68 98 99 124 126 130 131 132 134 135 138
+Sino                 : 123 137
+Subrutinabase        : 98 99
+Subrutinas           : 1
+TipoDato             : 53 56 58 59 60 94 96 97
+Tipos                : 5
+TiposConstantes      : 12 13
+ValoresComparacion   : 113 113
+ValoresVector        : 92
+Variables            : 57 67
+Variables2           : 53 54 56
+Variables2Fix        : 55
+VariablesFix         : 52
+VariantesIgualdad    : 
+VectorInit           : 83 86
+and                  : 114
+cadena               : 44 112
+caso                 : 124
+const                : 12
+desde                : 130
+empty                : 3 6 8 11 14 31 42 51 66 69 73 77 82 85 87 91 93 95 102 116 125 127 128
+eval                 : 123
+fin                  : 1 98 99
+hasta                : 130 131
+id                   : 2 9 10 12 13 15 46 50 52 55 58 70 94 96 97 98 98 98 99 109 118 130
+inicio               : 1 98 99
+logico               : 17 27 45 111 117
+matriz               : 60
+mientras             : 132
+not                  : 119
+numerico             : 16 43 62
+or                   : 115
+paso                 : 129
+programa             : 2
+ref                  : 97
+regitro              : 67
+repetir              : 131
+retorna              : 98 98
+si                   : 135 138
+sino                 : 126 133
+subrutina            : 98 99
+tipos                : 58
+tk_asig              : 12 13 49 54 57 78 130
+tk_cadena            : 18 25 30
+tk_coma              : 50 63 65 74 75 76 80 81 83 84 88 90
+tk_corchete_der      : 59 60
+tk_corchete_izq      : 59 60
+tk_distinto          : 108
+tk_division          : 35
+tk_dospuntos         : 49 53 56 58 94 96 97
+tk_igual_que         : 105
+tk_llave_der         : 67 86 92 123 130 132 134 137
+tk_llave_izq         : 67 86 92 123 130 132 138
+tk_mayor_igual_que   : 103
+tk_mayor_que         : 106
+tk_menor_igual_que   : 104
+tk_menor_que         : 107
+tk_modulo            : 36
+tk_multiplicacion    : 34 61
+tk_numero            : 20 21 22 110
+tk_par_der           : 38 70 98 98 99 122 124 126 131 132 138
+tk_par_izq           : 38 70 98 98 98 99 122 124 126 131 132 138
+tk_potenciacion      : 37
+tk_punto             : 10
+tk_punto_y_coma      : 7
+tk_resta             : 22 33
+tk_suma              : 21 32
+tk_tres_puntos       : 81 84 90
+vector               : 59
+

@@ -1,7 +1,72 @@
-// Cadenas no especificas
-TRUE FALSE SI NO
-100 3.14 2e+10 5.8e-3 8.1E+131 1.7E+308
-"" ' '
-" cadena no vacia con a "
-"Conteste con 'si' o 'no', por favor"
-'Maria dijo: "Buenos dias!"'
+const
+  MAX_ALUMNOS = 20
+var
+  notas : vector [MAX_ALUMNOS] numerico
+  suma_notas : numerico // suma de todas las notas leidas
+  prom : numerico // promedio del curso
+  cnb : numerico // cantidad con notas bajas
+  k : numerico
+
+  M3 : matriz [3, 5, 2] numerico // matriz 3D
+  v : vector [*] numerico
+  M : matriz [*, *] numerico
+  M1 : matriz [*, 8] numerico
+  dias_sem : vector [7] cadena
+  
+inicio
+  desde k=1 hasta MAX_ALUMNOS
+  {
+    imprimir ("\nIngrese nota para alumno numero ", k, ":")
+    leer (notas [k])
+    suma_notas = suma_notas + notas [k]
+  }
+  prom = suma_notas / MAX_ALUMNOS
+
+  cnb = 0
+  desde k=1 hasta MAX_ALUMNOS
+  {
+    si ( notas [k] < prom )
+    {
+      cnb = cnb + 1
+    }
+  }
+  imprimir ("\nExisten ", cnb, " alumnos con notas inferiores"," al promedio del curso, que es ", prom)
+  
+  repetir
+    leer (pnt)
+    si ( pnt >= 95 )
+    {
+      n5 = n5 + 1
+    sino si ( pnt >= 85 )
+      n3 = n3 + 1
+    sino si ( pnt < 60 )
+      n1 = n1 + 1
+    }
+    k = k + 1
+  hasta ( k > 20 )
+  
+  mientras ( num <= 9999 )
+  {
+    total = total + num
+    num = num + 1
+  }
+  
+  leer (cant_fil, cant_col)
+  dim (M, cant_fil, cant_col)
+  
+  tope_meses = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}
+  dias_sem = {"lunes", "martes", "miercoles", "jueves",
+              "viernes", "sabado", "domingo"
+             }
+  mat = { { 1, 2, 3},
+          { 4, 5, 6},
+          { 7, 8, 9},
+          {10, 11, 12},
+          {13, 14, 15}
+        }
+  M = { { 1, 3, 13, 31},
+        { 7, 21, 5, 17, 19, 2},
+        {},
+        { 71, 23}
+      }
+fin

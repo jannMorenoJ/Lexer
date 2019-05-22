@@ -1,14 +1,47 @@
-//2.5598055not3<>88&56.a
+tipos
+  PRODUCTO : registro
+           {
+             codigo : numerico
+             descrip : cadena
+             precio : numerico
+            }
+var
+  monitor, teclado : PRODUCTO
+  lista_prod : vector [*] PRODUCTO
+  r : registro
+    {
+      nombre : cadena
+      fecha_nac : registro
+                {
+                   dia, mes, ano : numerico
+                }
+      notas : vector [*] numerico
+    }
+  a : registro
+    {
+      x, y : numerico
+      v : vector [*] numerico
+    }
+  b : registro
+    {
+      m, n : numerico
+      c : vector [3] numerico
+    }
+  v : vector [100] registro
+    {
+      a, b : numerico
+    }	
+inicio
+  r = { "Carolina Gomez", // campo nombre
+        {12, 07, 1969}, // campo fecha
+        {87, 91, 99, 93} // 4 notas
+      }
 
-<>
-
-simbolo
-
-2da_var
-
-prueba
-
-texto = "Aprender lenguajes" +
-"es div'ertido"
-
-"Esta era una cade...
+  r.fecha_nac.dia = 23
+  r.notas [2] = 98
+  b = { 10, 20, // corresponden a m y n respectivamente
+        {0, 0, 0} // vector c inicializado con ceros
+	  }
+  a = b
+  v[3].b = 35
+fin
